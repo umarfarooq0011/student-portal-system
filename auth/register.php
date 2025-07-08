@@ -2,19 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login | Student Portal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Student Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Google Fonts -->
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
+    * {
       font-family: 'Inter', sans-serif;
-      background-color: #f8f9fa;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
     }
 
     .form-control {
@@ -44,7 +47,7 @@
     .btn-purple {
       background: linear-gradient(135deg, #a259ff, #8438ff);
       border: none;
-      transition: 0.3s ease;
+      transition: 0.3s ease-in-out;
     }
 
     .btn-purple:hover {
@@ -53,26 +56,41 @@
     }
 
     .left-panel {
-      background-color: #111;
-      color: #fff;
-      padding: 40px;
+      background-color: #0e0e0e;
+      color: white;
     }
 
     .right-panel {
       background-color: #a259ff;
-      color: #fff;
-      padding: 40px;
+      color: white;
       text-align: center;
     }
 
     .right-panel img {
-      max-width: 100%;
+      max-width: 90%;
       height: auto;
+      margin-top: 30px;
+    }
+
+    @media (min-width: 768px) {
+      .left-panel,
+      .right-panel {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px;
+      }
     }
 
     @media (max-width: 767.98px) {
+      .left-panel,
       .right-panel {
-        order: -1;
+        padding: 30px 20px;
+      }
+
+      .right-panel img {
+        max-width: 70%;
       }
     }
   </style>
@@ -80,24 +98,19 @@
 <body>
 
 <div class="container-fluid">
-  <div class="row g-0 min-vh-100 d-flex flex-column flex-md-row">
+  <div class="row flex-md-row flex-column-reverse">
 
-    <!-- Right Panel (Image, appears first on mobile) -->
-    <div class="col-md-6 right-panel d-flex flex-column justify-content-center align-items-center">
-      <div class="px-4 px-md-5">
-        <img src="../assets/images/loginsvg.png" alt="Student Portal Illustration" class="mb-4">
-        <h1 class="fw-bold">Welcome to Student Portal</h1>
-        <p class="lead">Access your grades, assignments and announcements anytime.</p>
-      </div>
-    </div>
-
-    <!-- Left Panel (Form) -->
+    <!-- Left Panel -->
     <div class="col-md-6 left-panel d-flex flex-column justify-content-center">
-      <div class="px-4 px-md-5">
-        <h2 class="mb-3">Welcome Back!</h2>
-        <p class="mb-4">Enter your login credentials below to access your portal.</p>
+      <div class="px-4">
+        <h2 class="mb-3">Create an Account</h2>
+        <p class="mb-4">Register below to get started with your student portal.</p>
 
-        <form action="../controllers/login_controller.php" method="post">
+        <form action="../controllers/register_controller.php" method="post">
+          <div class="mb-3">
+            <input type="text" name="full_name" class="form-control" placeholder="Full Name" required>
+          </div>
+
           <div class="mb-3">
             <input type="email" name="email" class="form-control" placeholder="Email" required>
           </div>
@@ -108,24 +121,35 @@
 
           <div class="mb-3">
             <select name="role" class="form-control" required>
-              <option value="">Login As</option>
+              <option value="">Register As</option>
               <option value="student">Student</option>
               <option value="admin">Admin</option>
             </select>
           </div>
 
-          <button type="submit" class="btn btn-purple w-100 text-white">Login</button>
+          <button type="submit" class="btn btn-purple w-100 text-white">Register</button>
 
-          <p class="mt-3 text-white">
-            Don't have an account?
-            <a href="register.php" class="text-info text-decoration-none">Sign up</a>
+          <p class="mt-3 text-white text-center">
+            Already have an account?
+            <a href="login.php" class="text-info text-decoration-none">Login here</a>
           </p>
         </form>
       </div>
     </div>
 
+    <!-- Right Panel -->
+    <div class="col-md-6 right-panel d-flex flex-column justify-content-center align-items-center">
+      <div class="px-4">
+        <h1 class="fw-bold">Welcome to Student Portal</h1>
+        <p class="lead">Track your grades, submit assignments, and stay updated — all in one place.</p>
+        <img src="../assets/images/registration.svg" alt="Register Illustration">
+      </div>
+    </div>
   </div>
 </div>
+
+
+<script src="script.js"></script>
 
 </body>
 </html>
