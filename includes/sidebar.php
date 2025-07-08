@@ -28,9 +28,6 @@
     <a href="../dashboard/profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>">
       <i class="bi bi-person"></i> Profile
     </a>
-    <a href="../auth/logout.php" class="nav-link">
-      <i class="bi bi-box-arrow-right"></i> Logout
-    </a>
   </nav>
 </div>
 <script>

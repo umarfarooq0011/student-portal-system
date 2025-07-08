@@ -5,6 +5,10 @@
   <title>Login | Student Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -126,6 +130,51 @@
 
   </div>
 </div>
+
+
+
+
+<script src="../assets/js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let alertShown = false;
+    if (urlParams.has('error')) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: urlParams.get('error'),
+        confirmButtonColor: '#a259ff'
+      });
+      alertShown = true;
+    }
+    if (urlParams.has('success')) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: urlParams.get('success'),
+        confirmButtonColor: '#a259ff'
+      });
+      alertShown = true;
+    }
+    if (urlParams.has('logout')) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged Out',
+        text: 'You have been logged out successfully.',
+        confirmButtonColor: '#a259ff'
+      });
+      alertShown = true;
+    }
+    // Remove query params after showing alert so it doesn't repeat on refresh
+    if (alertShown) {
+      if (window.history.replaceState) {
+        const cleanUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+      }
+    }
+  });
+</script>
 
 </body>
 </html>

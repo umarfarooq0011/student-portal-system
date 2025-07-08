@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->num_rows > 0) {
         // Email already exists
-        echo "<script>alert('Email already registered!'); window.history.back();</script>";
+        header("Location: ../auth/register.php?error=Email+already+registered");
         exit;
     }
 
@@ -27,9 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssss", $full_name, $email, $hashed_password, $role);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Registration successful! You can now login.'); window.location.href = '../auth/login.php';</script>";
+        header("Location: ../auth/login.php?success=Registration+successful!+You+can+now+login.");
+        exit;
     } else {
-        echo "<script>alert('Error occurred. Please try again.'); window.history.back();</script>";
+        header("Location: ../auth/register.php?error=Error+occurred.+Please+try+again.");
+        exit;
     }
 
     $stmt->close();

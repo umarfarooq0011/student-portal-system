@@ -34,14 +34,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             exit;
         } else {
-            echo "❌ Invalid password.";
+            header("Location: ../auth/login.php?error=Invalid+password.");
+            exit;
         }
     } else {
-        echo "❌ User not found.";
+        header("Location: ../auth/login.php?error=User+not+found.");
+        exit;
     }
 
     $stmt->close();
     $conn->close();
 } else {
-    echo "❌ Invalid request.";
+    header("Location: ../auth/login.php?error=Invalid+request.");
+    exit;
 }
