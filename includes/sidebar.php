@@ -8,25 +8,20 @@
     </button>
   </div>
   <nav class="nav flex-column">
-
     <a href="../dashboard/index.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>">
       <i class="bi bi-house-door"></i> Dashboard
     </a>
     <a href="../dashboard/annoucements.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'annoucements.php') ? 'active' : ''; ?>">
       <i class="bi bi-megaphone"></i> Announcements
     </a>
-
     <a href="../dashboard/assignments.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'assignments.php') ? 'active' : ''; ?>">
       <i class="bi bi-file-earmark-text"></i> Assignments
     </a>
     <a href="../dashboard/timetable.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'timetable.php') ? 'active' : ''; ?>">
       <i class="bi bi-calendar3"></i> Timetable
     </a>
-    <a href="../dashboard/grades.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'grades.php') ? 'active' : ''; ?>">
-      <i class="bi bi-mortarboard"></i> Grades
-    </a>
     <a href="../dashboard/profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>">
-      <i class="bi bi-person"></i> Profile
+      <i class="bi bi-person-circle"></i> Profile
     </a>
   </nav>
 </div>

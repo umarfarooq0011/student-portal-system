@@ -26,6 +26,9 @@
     <!-- <a href="../admin/manage_grades.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_grades.php') ? 'active' : ''; ?>">
       <i class="bi bi-mortarboard"></i> Manage Grades
     </a> -->
+    <a href="../admin/profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>">
+      <i class="bi bi-person-circle"></i> Profile
+    </a>
   </nav>
 </div>
 <script>

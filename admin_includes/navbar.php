@@ -26,7 +26,7 @@
           <i class="bi bi-person-circle me-2"></i><?php echo isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin'; ?>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-          <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+          <li><a class="dropdown-item" href="../admin/profile.php"><i class="bi bi-person me-2"></i>Profile</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="../auth/logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
         </ul>
