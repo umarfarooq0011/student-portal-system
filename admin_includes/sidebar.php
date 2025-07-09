@@ -17,15 +17,15 @@
     <a href="../admin/manage_assignments.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_assignments.php') ? 'active' : ''; ?>">
       <i class="bi bi-file-earmark-text"></i> Manage Assignments
     </a>
-    <a href="../admin/students.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'students.php') ? 'active' : ''; ?>">
+    <!-- <a href="../admin/students.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'students.php') ? 'active' : ''; ?>">
       <i class="bi bi-people"></i> Manage Students
-    </a>
+    </a> -->
     <a href="../admin/manage_timetable.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_timetable.php') ? 'active' : ''; ?>">
       <i class="bi bi-calendar3"></i> Manage Timetables
     </a>
-    <a href="../admin/manage_grades.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_grades.php') ? 'active' : ''; ?>">
+    <!-- <a href="../admin/manage_grades.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_grades.php') ? 'active' : ''; ?>">
       <i class="bi bi-mortarboard"></i> Manage Grades
-    </a>
+    </a> -->
   </nav>
 </div>
 <script>
