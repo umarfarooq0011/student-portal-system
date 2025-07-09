@@ -1,0 +1,52 @@
+<?php
+require_once __DIR__ . '/../config/db.php';
+
+class Assignment
+{
+    public function getAll()
+    {
+        global $conn;
+        $query = "SELECT * FROM assignments ORDER BY created_at DESC";
+        return mysqli_query($conn, $query);
+    }
+
+    public function create($data, $filename)
+    {
+        global $conn;
+        $title = $data['title'];
+        $subject = $data['subject'];
+        $due_date = $data['due_date'];
+        $instructions = $data['instructions'];
+        $allow_late = isset($data['allow_late']) ? 1 : 0;
+
+        $stmt = $conn->prepare("INSERT INTO assignments (title, subject, due_date, instructions, attachment, allow_late) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssi", $title, $subject, $due_date, $instructions, $filename, $allow_late);
+        return $stmt->execute();
+    }
+
+    public function update($id, $data, $filename = null)
+    {
+        global $conn;
+        $title = $data['title'];
+        $subject = $data['subject'];
+        $due_date = $data['due_date'];
+        $instructions = $data['instructions'];
+        $allow_late = isset($data['allow_late']) ? 1 : 0;
+        if ($filename) {
+            $stmt = $conn->prepare("UPDATE assignments SET title=?, subject=?, due_date=?, instructions=?, attachment=?, allow_late=? WHERE id=?");
+            $stmt->bind_param("ssssssi", $title, $subject, $due_date, $instructions, $filename, $allow_late, $id);
+        } else {
+            $stmt = $conn->prepare("UPDATE assignments SET title=?, subject=?, due_date=?, instructions=?, allow_late=? WHERE id=?");
+            $stmt->bind_param("ssssii", $title, $subject, $due_date, $instructions, $allow_late, $id);
+        }
+        return $stmt->execute();
+    }
+
+    public function delete($id)
+    {
+        global $conn;
+        $stmt = $conn->prepare("DELETE FROM assignments WHERE id=?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+}

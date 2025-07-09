@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } else {
         header("Location: ../auth/login.php?error=User+not+found.");
-        exit;
+        exit; 
     }
 
     $stmt->close();
