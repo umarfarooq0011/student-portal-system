@@ -6,7 +6,31 @@ require_once '../admin_includes/navbar.php';
 require_once '../models/Assignment.php';
 
 $assignmentModel = new Assignment();
-$assignments = $assignmentModel->getAll();
+
+// Pagination setup
+$perPage = 5;
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$offset = ($page - 1) * $perPage;
+
+// Get total count
+$conn = $GLOBALS['conn'];
+$totalResult = mysqli_query($conn, "SELECT COUNT(*) as cnt FROM assignments");
+$totalRow = mysqli_fetch_assoc($totalResult);
+$totalAssignments = $totalRow['cnt'];
+$totalPages = ceil($totalAssignments / $perPage);
+
+// Get paginated assignments
+$assignments = mysqli_query($conn, "SELECT * FROM assignments ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
+
+// Get unique subjects for filter dropdown
+$subjects = [];
+$allAssignments = $assignmentModel->getAll();
+while ($subjRow = mysqli_fetch_assoc($allAssignments)) {
+    $subj = trim($subjRow['subject']);
+    if ($subj && !in_array($subj, $subjects)) {
+        $subjects[] = $subj;
+    }
+}
 ?>
 
 <div class="main-content">
@@ -35,11 +59,11 @@ $assignments = $assignmentModel->getAll();
                         </div>
                     </div>
                     <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                        <select class="form-select w-auto d-inline-block">
+                        <select class="form-select w-auto d-inline-block" id="subjectFilter">
                             <option value="all">All Subjects</option>
-                            <option value="math">Mathematics</option>
-                            <option value="science">Science</option>
-                            <option value="english">English</option>
+                            <?php foreach ($subjects as $subject): ?>
+                                <option value="<?= htmlspecialchars($subject) ?>"><?= htmlspecialchars($subject) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -98,11 +122,17 @@ $assignments = $assignmentModel->getAll();
                 <!-- Pagination -->
                 <nav class="mt-4">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled"><a class="page-link">Previous</a></li>
-                        <li class="page-item active"><a class="page-link">1</a></li>
-                        <li class="page-item"><a class="page-link">2</a></li>
-                        <li class="page-item"><a class="page-link">3</a></li>
-                        <li class="page-item"><a class="page-link">Next</a></li>
+                        <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                            <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
+                        </li>
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <li class="page-item<?= $i == $page ? ' active' : '' ?>">
+                                <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                            </li>
+                        <?php endfor; ?>
+                        <li class="page-item<?= $page >= $totalPages ? ' disabled' : '' ?>">
+                            <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -212,6 +242,35 @@ function openEditModal(id, title, subject, due_date, instructions) {
     var modal = new bootstrap.Modal(document.getElementById('editAssignmentModal'));
     modal.show();
 }
+
+// Subject filter
+const subjectFilter = document.getElementById('subjectFilter');
+subjectFilter.addEventListener('change', function() {
+    const value = this.value.toLowerCase();
+    document.querySelectorAll('table tbody tr').forEach(function(row) {
+        const subject = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        if (value === 'all' || subject === value) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+
+// Search bar
+const searchInput = document.querySelector('.input-group input[type="text"]');
+searchInput.addEventListener('input', function() {
+    const search = this.value.toLowerCase();
+    document.querySelectorAll('table tbody tr').forEach(function(row) {
+        const title = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+        const subject = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        if (title.includes(search) || subject.includes(search)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
 </script>
 
 <?php
