@@ -38,7 +38,11 @@ $student_id = $_SESSION['user_id'];
                             <a href="../assignments/uploads/<?= htmlspecialchars($row['attachment']) ?>" target="_blank" class="btn btn-outline-info btn-sm mb-2">Download Attachment</a><br>
                         <?php endif; ?>
                         <?php if ($submission): ?>
-                            <div class="alert alert-success p-2 mb-2">Submitted
+                            <div class="alert alert-success p-2 mb-2">
+                                <?php if ($submission['grade'] || $submission['feedback']): ?>
+                                    <span class="badge bg-success mb-1">Checked</span><br>
+                                <?php endif; ?>
+                                Submitted
                                 <?php if ($submission['file']): ?>
                                     <a href="../assignments/uploads/<?= htmlspecialchars($submission['file']) ?>" target="_blank">(View File)</a>
                                 <?php endif; ?>

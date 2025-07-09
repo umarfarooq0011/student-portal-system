@@ -19,8 +19,22 @@ $totalRow = mysqli_fetch_assoc($totalResult);
 $totalAssignments = $totalRow['cnt'];
 $totalPages = ceil($totalAssignments / $perPage);
 
+// Get unique subjects
+$subjectsResult = mysqli_query($conn, "SELECT DISTINCT subject FROM assignments WHERE subject IS NOT NULL AND subject != '' ORDER BY subject ASC");
+$subjects = [];
+while ($subjectRow = mysqli_fetch_assoc($subjectsResult)) {
+    $subjects[] = $subjectRow['subject'];
+}
+
 // Get paginated assignments
-$assignments = mysqli_query($conn, "SELECT * FROM assignments ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
+$subjectFilter = isset($_GET['subject']) && $_GET['subject'] !== 'all' ? $_GET['subject'] : null;
+$query = "SELECT * FROM assignments";
+if ($subjectFilter) {
+    $subjectFilter = mysqli_real_escape_string($conn, $subjectFilter);
+    $query .= " WHERE subject = '$subjectFilter'";
+}
+$query .= " ORDER BY created_at DESC LIMIT $perPage OFFSET $offset";
+$assignments = mysqli_query($conn, $query);
 
 // For each assignment, check if any submission exists
 $assignmentStatus = [];
@@ -126,17 +140,13 @@ while ($row = mysqli_fetch_assoc($subRes)) {
                 <!-- Pagination -->
                 <nav class="mt-4">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                            <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
-                        </li>
                         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                            <li class="page-item<?= $i == $page ? ' active' : '' ?>">
-                                <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                            <li class="page-item <?= $i === $page ? 'active' : '' ?>">
+                                <a class="page-link" href="?page=<?= $i ?><?= $subjectFilter ? '&subject=' . urlencode($subjectFilter) : '' ?>">
+                                    <?= $i ?>
+                                </a>
                             </li>
                         <?php endfor; ?>
-                        <li class="page-item<?= $page >= $totalPages ? ' disabled' : '' ?>">
-                            <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
-                        </li>
                     </ul>
                 </nav>
             </div>
@@ -285,5 +295,26 @@ if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] == UPLOAD_ERR
     $filename = time() . '_' . $originalName;
     move_uploaded_file($_FILES['attachment']['tmp_name'], $uploadDir . $filename);
 }
+?>
+<script>
+document.getElementById('subjectFilter').addEventListener('change', function() {
+    const subject = this.value;
+    const urlParams = new URLSearchParams(window.location.search);
+    if (subject === 'all') {
+        urlParams.delete('subject');
+    } else {
+        urlParams.set('subject', subject);
+    }
+    urlParams.delete('page'); // Reset to first page when filter changes
+    window.location.href = '?' + urlParams.toString();
+});
 
-require_once '../admin_includes/footer.php';
+// Set the current subject in the dropdown
+const urlParams = new URLSearchParams(window.location.search);
+const currentSubject = urlParams.get('subject');
+if (currentSubject) {
+    document.getElementById('subjectFilter').value = currentSubject;
+}
+</script>
+
+<?php require_once '../admin_includes/footer.php'; ?>

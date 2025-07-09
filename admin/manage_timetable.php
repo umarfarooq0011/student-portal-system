@@ -27,18 +27,27 @@ require_once '../admin_includes/navbar.php';
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Monday</td>
-                                <td>Mathematics</td>
-                                <td>9:00 AM - 10:00 AM</td>
-                                <td>Room 101</td>
-                                <td>Mr. Ali</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                                </td>
-                            </tr>
-                            <!-- More rows as needed -->
+<?php
+require_once '../models/Timetable.php';
+$timetableModel = new Timetable();
+$timetables = $timetableModel->getAll();
+while ($row = mysqli_fetch_assoc($timetables)):
+?>
+<tr>
+    <td><?= htmlspecialchars($row['day_of_week']) ?></td>
+    <td><?= htmlspecialchars($row['subject']) ?></td>
+    <td><?= date("g:i A", strtotime($row['start_time'])) . " - " . date("g:i A", strtotime($row['end_time'])) ?></td>
+    <td><?= htmlspecialchars($row['room']) ?></td>
+    <td><?= htmlspecialchars($row['teacher']) ?></td>
+    <td>
+        <form method="POST" action="../controllers/timetable_controller.php" style="display:inline-block;">
+            <input type="hidden" name="delete_id" value="<?= $row['id'] ?>">
+            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="bi bi-trash"></i></button>
+        </form>
+        <!-- You can later add Edit modal trigger here -->
+    </td>
+</tr>
+<?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
@@ -55,39 +64,45 @@ require_once '../admin_includes/navbar.php';
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Day</label>
-                        <select class="form-select" required>
-                            <option value="">Select Day</option>
-                            <option>Monday</option>
-                            <option>Tuesday</option>
-                            <option>Wednesday</option>
-                            <option>Thursday</option>
-                            <option>Friday</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Subject</label>
-                        <input type="text" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Time</label>
-                        <input type="text" class="form-control" placeholder="e.g. 9:00 AM - 10:00 AM" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Room</label>
-                        <input type="text" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Teacher</label>
-                        <input type="text" class="form-control" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Save</button>
+               <form method="POST" action="../controllers/timetable_controller.php">
+    <input type="hidden" name="add" value="1">
+    <div class="mb-3">
+        <label class="form-label">Day</label>
+        <select class="form-select" name="day_of_week" required>
+            <option value="">Select Day</option>
+            <option>Monday</option>
+            <option>Tuesday</option>
+            <option>Wednesday</option>
+            <option>Thursday</option>
+            <option>Friday</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Subject</label>
+        <input type="text" name="subject" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Start Time</label>
+        <input type="time" name="start_time" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">End Time</label>
+        <input type="time" name="end_time" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Room</label>
+        <input type="text" name="room" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Teacher</label>
+        <input type="text" name="teacher" class="form-control" required>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
             </div>
         </div>
     </div>

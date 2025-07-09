@@ -3,6 +3,10 @@ require_once '../auth/authsession.php';
 require_once '../includes/header.php';
 require_once '../includes/sidebar.php';
 require_once '../includes/navbar.php';
+require_once '../models/Timetable.php';
+
+$timetableModel = new Timetable();
+$timetables = $timetableModel->getAll();
 ?>
 
 <div class="main-content">
@@ -20,28 +24,15 @@ require_once '../includes/navbar.php';
                     </tr>
                 </thead>
                 <tbody>
+                <?php while ($row = mysqli_fetch_assoc($timetables)): ?>
                     <tr>
-                        <td>Monday</td>
-                        <td>Mathematics</td>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>Room 101</td>
-                        <td>Mr. Ali</td>
+                        <td><?= htmlspecialchars($row['day_of_week']) ?></td>
+                        <td><?= htmlspecialchars($row['subject']) ?></td>
+                        <td><?= date("g:i A", strtotime($row['start_time'])) . " - " . date("g:i A", strtotime($row['end_time'])) ?></td>
+                        <td><?= htmlspecialchars($row['room']) ?></td>
+                        <td><?= htmlspecialchars($row['teacher']) ?></td>
                     </tr>
-                    <tr>
-                        <td>Monday</td>
-                        <td>Science</td>
-                        <td>10:15 AM - 11:15 AM</td>
-                        <td>Room 102</td>
-                        <td>Ms. Fatima</td>
-                    </tr>
-                    <tr>
-                        <td>Tuesday</td>
-                        <td>English</td>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>Room 103</td>
-                        <td>Mr. Ahmed</td>
-                    </tr>
-                    <!-- More rows as needed -->
+                <?php endwhile; ?>
                 </tbody>
             </table>
         </div>
