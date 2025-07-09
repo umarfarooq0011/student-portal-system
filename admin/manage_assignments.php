@@ -6,6 +6,7 @@ require_once '../admin_includes/navbar.php';
 require_once '../models/Assignment.php';
 
 $assignmentModel = new Assignment();
+$conn = $GLOBALS['conn'];
 
 // Pagination setup
 $perPage = 5;
@@ -13,7 +14,6 @@ $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $perPage;
 
 // Get total count
-$conn = $GLOBALS['conn'];
 $totalResult = mysqli_query($conn, "SELECT COUNT(*) as cnt FROM assignments");
 $totalRow = mysqli_fetch_assoc($totalResult);
 $totalAssignments = $totalRow['cnt'];
@@ -22,15 +22,14 @@ $totalPages = ceil($totalAssignments / $perPage);
 // Get paginated assignments
 $assignments = mysqli_query($conn, "SELECT * FROM assignments ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
 
-// Get unique subjects for filter dropdown
-$subjects = [];
-$allAssignments = $assignmentModel->getAll();
-while ($subjRow = mysqli_fetch_assoc($allAssignments)) {
-    $subj = trim($subjRow['subject']);
-    if ($subj && !in_array($subj, $subjects)) {
-        $subjects[] = $subj;
-    }
+// For each assignment, check if any submission exists
+$assignmentStatus = [];
+$submissions = [];
+$subRes = mysqli_query($conn, "SELECT assignment_id, COUNT(*) as cnt FROM submissions GROUP BY assignment_id");
+while ($row = mysqli_fetch_assoc($subRes)) {
+    $submissions[$row['assignment_id']] = $row['cnt'];
 }
+
 ?>
 
 <div class="main-content">
@@ -88,9 +87,14 @@ while ($subjRow = mysqli_fetch_assoc($allAssignments)) {
                                 <td><?= htmlspecialchars($row['subject']) ?></td>
                                 <td><?= $row['due_date'] ?></td>
                                 <td>
-                                    <span class="badge <?= $row['due_date'] >= date('Y-m-d') ? 'bg-warning' : 'bg-secondary' ?>">
-                                        <?= $row['due_date'] >= date('Y-m-d') ? 'Pending' : 'Closed' ?>
-                                    </span>
+                                    <?php
+                                    $aid = $row['id'];
+                                    if (isset($submissions[$aid]) && $submissions[$aid] > 0) {
+                                        echo '<span class="badge bg-success">Submitted</span>';
+                                    } else {
+                                        echo '<span class="badge bg-warning">Pending</span>';
+                                    }
+                                    ?>
                                 </td>
                                 <td>
                                     <?php if (!empty($row['attachment'])): ?>
