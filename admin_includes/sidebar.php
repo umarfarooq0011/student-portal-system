@@ -20,6 +20,12 @@
     <a href="../admin/students.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'students.php') ? 'active' : ''; ?>">
       <i class="bi bi-people"></i> Manage Students
     </a>
+    <a href="../admin/manage_timetable.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_timetable.php') ? 'active' : ''; ?>">
+      <i class="bi bi-calendar3"></i> Manage Timetables
+    </a>
+    <a href="../admin/manage_grades.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_grades.php') ? 'active' : ''; ?>">
+      <i class="bi bi-mortarboard"></i> Manage Grades
+    </a>
   </nav>
 </div>
 <script>
