@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jul 10, 2025 at 10:04 AM
+-- Generation Time: Jul 19, 2025 at 07:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -41,7 +41,7 @@ CREATE TABLE `announcements` (
 --
 
 INSERT INTO `announcements` (`id`, `title`, `category`, `content`, `status`, `created_at`) VALUES
-(3, 'Fee submission details ', 'Academic', 'Due to off down systen challans are not geenrated by Faham so please visit ssc office to get challans for fee submission', 'Active', '2025-07-09 22:49:10');
+(5, 'Fee submission details', 'Academic', 'Dear Students,\r\n\r\nThis is to inform you that the fee submission window for the upcoming term is now open.\r\n\r\n📅 Last Date to Submit Fees: [Insert Due Date]\r\n🏦 Payment Methods: Online Transfer | Bank Deposit | Campus Office\r\n\r\nPlease ensure timely payment to avoid any late fines or enrollment issues.\r\nFor assistance, contact the accounts office at [insert email or number].\r\n\r\nThank you for your cooperation.\r\n\r\n– Student Affairs / Accounts Department', 'Active', '2025-07-19 17:55:44');
 
 -- --------------------------------------------------------
 
@@ -65,7 +65,8 @@ CREATE TABLE `assignments` (
 --
 
 INSERT INTO `assignments` (`id`, `title`, `subject`, `due_date`, `instructions`, `attachment`, `allow_late`, `created_at`) VALUES
-(11, 'Version control system', 'Software re engneering', '2025-07-14', 'Submission:\r\n•	GitHub repo link\r\n•	2–3 screenshots (commit, branch, merge)\r\n•	Short write-up: What did you learn?\r\n________________________________________\r\n', '1752082927_Software Reeng Assignment 2 & 3.docx', 1, '2025-07-09 17:42:07');
+(16, 'Git and Github (version control system)', 'Software re engneering', '2025-07-22', 'Print hard form Avoid palagrism', '1752929678_1752052697_Software Requirement Engineering.doc', 0, '2025-07-19 12:54:38'),
+(17, 'MANAGEMENT AND ORGANIZATIONS', 'ITM', '2025-07-19', 'Handwritten ', '1752929978_A1&2 Management.docx', 0, '2025-07-19 12:59:38');
 
 -- --------------------------------------------------------
 
@@ -89,11 +90,8 @@ CREATE TABLE `submissions` (
 --
 
 INSERT INTO `submissions` (`id`, `assignment_id`, `student_id`, `file`, `comment`, `submitted_at`, `grade`, `feedback`) VALUES
-(1, 7, 13, '1752056445_1752052697_Software Requirement Engineering.doc', '', '2025-07-09 15:20:45', '8/10', 'good effort'),
-(2, 6, 13, '1752057845_delete_student.png', '', '2025-07-09 15:44:05', '9/10', 'best'),
-(3, 1, 13, '1752058403_Mid Term Batch Spring 2024.Spring 2023 ,Fall 2022 Semester III,V(R),VI(R),VI(L),VII(L) Finalized by 2952.xlsx', 'done', '2025-07-09 15:53:23', '', ''),
-(4, 8, 13, '1752061500_download.jpg', '', '2025-07-09 16:45:00', '', ''),
-(5, 11, 13, '1752083081_logo.png', '', '2025-07-09 22:44:41', '0/10', 'wrong file');
+(13, 16, 30, '1752936128_abstract.jpg', 'name:umar', '2025-07-19 19:42:08', '2/10', 'wrong code'),
+(14, 17, 30, '1752936144_download.jpg', '149', '2025-07-19 19:42:24', '8/10', 'good effort');
 
 -- --------------------------------------------------------
 
@@ -117,10 +115,10 @@ CREATE TABLE `timetables` (
 --
 
 INSERT INTO `timetables` (`id`, `day_of_week`, `subject`, `start_time`, `end_time`, `room`, `teacher`, `created_at`) VALUES
-(2, 'Friday', 'Software re engneering', '10:30:00', '12:00:00', 'C-120', 'sir zubair', '2025-07-09 14:37:21'),
-(3, 'Friday', 'Software requirement engneering', '12:30:00', '13:45:00', 'c-108', 'Mam Amna sabha', '2025-07-09 14:44:28'),
-(5, 'Tuesday', 'ITM', '10:22:00', '12:21:00', 'm-104', 'mr ali', '2025-07-09 16:00:10'),
-(6, 'Thursday', 'Software Qulaity engneering', '10:20:00', '12:23:00', 'c-303', 'hamna ', '2025-07-09 16:01:10');
+(8, 'Tuesday', 'Software re engneering', '08:30:00', '21:45:00', 'c-102', 'sir zubair', '2025-07-19 13:00:39'),
+(9, 'Tuesday', 'Software requirement engneering', '09:45:00', '11:00:00', 'c-103', 'Mam Amna sabha', '2025-07-19 14:37:15'),
+(10, 'Tuesday', 'ITM', '11:00:00', '12:15:00', 'c-106', 'mam mariyam', '2025-07-19 14:38:15'),
+(11, 'Tuesday', 'Software Qulaity engneering', '12:15:00', '13:32:00', 'C-209', 'MAM AMINA SABHA ', '2025-07-19 14:39:33');
 
 -- --------------------------------------------------------
 
@@ -133,18 +131,17 @@ CREATE TABLE `users` (
   `full_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('student','admin') NOT NULL
+  `role` enum('student','admin') NOT NULL,
+  `profile_image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `role`) VALUES
-(13, 'OMER AWAN', 'Umarfarooq6153@gmail.com', '$2y$10$/vAp8Ttoo9Gex7wiZIM0x.z5zPWlbAUCMGtFv4FmylTNmvXqcHYKS', 'student'),
-(14, 'zarishnasir', 'zarishnasir12345@gmail.com', '$2y$10$J6Y2wBpyrHFe9fR/pmV9feJVNmC/4cAFqdFv90FFKa2tDwCxgNrSS', 'admin'),
-(15, 'ALI', 'usamanasir1234@gmail.com', '$2y$10$qS5u0pgn2DYpqWj.KkwSkuGSOB2RbWLuHf0zFaMnbPXYV55IOJdE6', 'student'),
-(16, 'ALI', 'ali123@gmail.com', '$2y$10$czUBlfTSHUoFgVUb42Wsfu2ERy.FHiSL4r9xcxwT6rdUPMqKbETvC', 'admin');
+INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `role`, `profile_image`) VALUES
+(29, 'sir jubair', 'Umarfarooq6153@gmail.com', '$2y$10$foiUY4h.NxCqi7jfHPpeseF80DzGCQ8m./I/7sd5FhekJqd3/WOzm', 'admin', 'profile_29_1752945140.png'),
+(30, 'ayesha', 'ayesha@123gmail.com', '$2y$10$h34CxRJhTYzpyNK9WgzGWOCYyWLGQcwCWmj3IKpSAym5VRu4onOae', 'student', 'profile_30_1752944987.png');
 
 --
 -- Indexes for dumped tables
@@ -191,41 +188,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `assignments`
 --
 ALTER TABLE `assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `submissions`
 --
 ALTER TABLE `submissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `timetables`
 --
 ALTER TABLE `timetables`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `submissions`
---
-ALTER TABLE `submissions`
-  ADD CONSTRAINT `submissions_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
