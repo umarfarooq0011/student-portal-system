@@ -40,12 +40,68 @@ while ($row = mysqli_fetch_assoc($timetables)):
     <td><?= htmlspecialchars($row['room']) ?></td>
     <td><?= htmlspecialchars($row['teacher']) ?></td>
     <td>
+        <button type="button" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editTimetableModal<?= $row['id'] ?>">
+            <i class="bi bi-pencil"></i>
+        </button>
         <form method="POST" action="../controllers/timetable_controller.php" style="display:inline-block;">
             <input type="hidden" name="delete_id" value="<?= $row['id'] ?>">
             <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="bi bi-trash"></i></button>
         </form>
-        <!-- You can later add Edit modal trigger here -->
     </td>
+
+    <!-- Edit Modal for each entry -->
+    <div class="modal fade" id="editTimetableModal<?= $row['id'] ?>" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Timetable Entry</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="../controllers/timetable_controller.php">
+                        <input type="hidden" name="edit" value="1">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <div class="mb-3">
+                            <label class="form-label">Day</label>
+                            <select class="form-select" name="day_of_week" required>
+                                <?php
+                                $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+                                foreach ($days as $day) {
+                                    $selected = ($day === $row['day_of_week']) ? 'selected' : '';
+                                    echo "<option value=\"$day\" $selected>$day</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <input type="text" name="subject" class="form-control" value="<?= htmlspecialchars($row['subject']) ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Start Time</label>
+                            <input type="time" name="start_time" class="form-control" value="<?= $row['start_time'] ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">End Time</label>
+                            <input type="time" name="end_time" class="form-control" value="<?= $row['end_time'] ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Room</label>
+                            <input type="text" name="room" class="form-control" value="<?= htmlspecialchars($row['room']) ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teacher</label>
+                            <input type="text" name="teacher" class="form-control" value="<?= htmlspecialchars($row['teacher']) ?>" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </tr>
 <?php endwhile; ?>
                         </tbody>

@@ -13,6 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'teacher' => $_POST['teacher']
         ];
         $timetableModel->create($data);
+    } elseif (isset($_POST['edit'])) {
+        $id = $_POST['id'];
+        $data = [
+            'day_of_week' => $_POST['day_of_week'],
+            'subject' => $_POST['subject'],
+            'start_time' => $_POST['start_time'],
+            'end_time' => $_POST['end_time'],
+            'room' => $_POST['room'],
+            'teacher' => $_POST['teacher']
+        ];
+        $timetableModel->update($id, $data);
     } elseif (isset($_POST['delete_id'])) {
         $timetableModel->delete($_POST['delete_id']);
     }
