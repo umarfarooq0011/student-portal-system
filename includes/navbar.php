@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../config/db.php';
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm d-flex align-items-center" style="margin-left:250px; min-height:64px;">
   <div class="container-fluid justify-content-between">
     <!-- Hamburger for mobile -->
@@ -6,8 +9,25 @@
     </button>
     <div class="d-flex align-items-center ms-auto">
       <div class="dropdown">
-        <button class="btn btn-outline-secondary rounded-pill px-3 dropdown-toggle fw-semibold" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-person-circle me-2"></i><?php echo isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'User'; ?>
+        <?php
+        // Get user's profile photo
+        $user_id = $_SESSION['user_id'];
+        $photo_query = "SELECT profile_image FROM users WHERE id = ?";
+        $stmt = $conn->prepare($photo_query);
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $photo_result = $stmt->get_result();
+        $user = $photo_result->fetch_assoc();
+        $profile_image = $user['profile_image'];
+        $profile_path = $profile_image ? "../assets/uploads/profile_photos/" . $profile_image : "";
+        ?>
+        <button class="btn btn-outline-secondary rounded-pill px-3 dropdown-toggle fw-semibold d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <?php if ($profile_image && file_exists($profile_path)): ?>
+            <img src="<?php echo $profile_path; ?>" alt="Profile" class="rounded-circle me-2" style="width: 24px; height: 24px; object-fit: cover;">
+          <?php else: ?>
+            <i class="bi bi-person-circle me-2"></i>
+          <?php endif; ?>
+          <?php echo isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'User'; ?>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
           <li><a class="dropdown-item" href="../dashboard/profile.php"><i class="bi bi-person me-2"></i>Profile</a></li>
