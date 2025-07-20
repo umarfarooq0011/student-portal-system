@@ -22,50 +22,103 @@ $student_id = $_SESSION['user_id'];
                 <div class="card mb-3 border-primary">
                     <div class="card-body">
                         <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
-                        <div class="mb-2 text-muted small">Due: <?= htmlspecialchars($row['due_date']) ?></div>
-                        <?php
-                        $today = date('Y-m-d');
-                        if ($row['due_date'] < $today) {
-                            echo '<span class="badge bg-danger mb-2">Overdue</span>';
-                        } elseif ($row['due_date'] == $today) {
-                            echo '<span class="badge bg-warning text-dark mb-2">Due Today</span>';
-                        } else {
-                            echo '<span class="badge bg-warning text-dark mb-2">Pending</span>';
-                        }
-                        ?>
+                        <div class="mb-3">
+                            <div class="text-muted small mb-2">
+                                <i class="bi bi-calendar-event"></i> Due: <?= date('M d, Y', strtotime($row['due_date'])) ?>
+                            </div>
+                            <?php
+                            $today = date('Y-m-d');
+                            
+                            // Calculate assignment status
+                            if ($submission) {
+                                $status_class = 'bg-success';
+                                $status_icon = 'bi-check-circle';
+                                $status_text = 'Submitted';
+                                
+                                if ($submission['grade']) {
+                                    $status_text = 'Graded: ' . $submission['grade'];
+                                }
+                            } else {
+                                if ($row['due_date'] < $today) {
+                                    $status_class = 'bg-danger';
+                                    $status_icon = 'bi-exclamation-circle';
+                                    $status_text = 'Overdue';
+                                } elseif ($row['due_date'] == $today) {
+                                    $status_class = 'bg-warning text-dark';
+                                    $status_icon = 'bi-exclamation-triangle';
+                                    $status_text = 'Due Today';
+                                } else {
+                                    $status_class = 'bg-primary';
+                                    $status_icon = 'bi-hourglass-split';
+                                    $status_text = 'Pending';
+                                }
+                            }
+                            ?>
+                            <div class="d-inline-block">
+                                <span class="badge <?= $status_class ?> p-2">
+                                    <i class="bi <?= $status_icon ?>"></i> <?= $status_text ?>
+                                </span>
+                            </div>
+                        </div>
                         <p class="card-text"><?= nl2br(htmlspecialchars($row['instructions'])) ?></p>
                         <?php if (!empty($row['attachment'])): ?>
-                            <a href="../assignments/uploads/<?= htmlspecialchars($row['attachment']) ?>" target="_blank" class="btn btn-outline-info btn-sm mb-2">Download Attachment</a><br>
+                            <a href="../assignments/uploads/<?= htmlspecialchars($row['attachment']) ?>" 
+                               class="btn btn-outline-info btn-sm mb-2">
+                               <i class="bi bi-download"></i> Download Assignment
+                            </a><br>
                         <?php endif; ?>
                         <?php if ($submission): ?>
-                            <div class="alert alert-success p-2 mb-2">
-                                <?php if ($submission['grade'] || $submission['feedback']): ?>
-                                    <span class="badge bg-success mb-1">Checked</span><br>
-                                <?php endif; ?>
-                                Submitted
-                                <?php if ($submission['file']): ?>
-                                    <a href="../assignments/uploads/<?= htmlspecialchars($submission['file']) ?>" target="_blank">(View File)</a>
-                                <?php endif; ?>
-                                <?php if ($submission['grade']): ?>
-                                    <br><span class="badge bg-info">Grade: <?= htmlspecialchars($submission['grade']) ?></span>
-                                <?php endif; ?>
-                                <?php if ($submission['feedback']): ?>
-                                    <br><small>Feedback: <?= htmlspecialchars($submission['feedback']) ?></small>
-                                <?php endif; ?>
+                            <?php if ($submission['feedback']): ?>
+                            <div class="alert alert-info p-2 mb-2">
+                                <small>
+                                    <i class="bi bi-chat-text"></i> 
+                                    Feedback: <?= htmlspecialchars($submission['feedback']) ?>
+                                </small>
                             </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($submission['file']): ?>
+                            <div class="text-end mb-2">
+                                <a href="../assignments/uploads/<?= htmlspecialchars($submission['file']) ?>" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-file-earmark-text"></i> View Submission
+                                </a>
+                            </div>
+                            <?php endif; ?>
                         <?php else: ?>
-                        <form method="POST" enctype="multipart/form-data" action="../controllers/submission_controller.php">
-                            <input type="hidden" name="assignment_id" value="<?= $row['id'] ?>">
-                            <div class="mb-2">
-                                <label class="form-label">Upload File</label>
-                                <input type="file" name="file" class="form-control form-control-sm" required>
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Comment (optional)</label>
-                                <textarea name="comment" class="form-control form-control-sm"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                        </form>
+                            <?php
+                            $is_overdue = strtotime($row['due_date']) < strtotime($today);
+                            if ($is_overdue && !$row['allow_late']): ?>
+                                <div class="alert alert-danger p-2 mb-2">
+                                    <i class="bi bi-exclamation-triangle-fill"></i> 
+                                    <strong>Submission Closed</strong><br>
+                                    This assignment was due on <?= date('M d, Y', strtotime($row['due_date'])) ?> and late submissions are not allowed.
+                                </div>
+                            <?php else: ?>
+                                <form method="POST" enctype="multipart/form-data" action="../controllers/submission_controller.php">
+                                    <input type="hidden" name="assignment_id" value="<?= $row['id'] ?>">
+                                    <?php if ($is_overdue): ?>
+                                        <div class="alert alert-warning p-2 mb-2">
+                                            <small>
+                                                <i class="bi bi-exclamation-triangle"></i>
+                                                <strong>Late Submission Allowed</strong><br>
+                                                This assignment was due on <?= date('M d, Y', strtotime($row['due_date'])) ?>.
+                                            </small>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="mb-2">
+                                        <label class="form-label">Upload File</label>
+                                        <input type="file" name="file" class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Comment (optional)</label>
+                                        <textarea name="comment" class="form-control form-control-sm"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <?= $is_overdue ? 'Submit Late' : 'Submit' ?>
+                                    </button>
+                                </form>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </div>

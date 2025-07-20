@@ -10,6 +10,18 @@ class Assignment
         return mysqli_query($conn, $query);
     }
 
+    public function getById($id)
+    {
+        global $conn;
+        $id = intval($id);
+        $query = "SELECT * FROM assignments WHERE id = ? LIMIT 1";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
     public function create($data, $filename)
     {
         global $conn;
