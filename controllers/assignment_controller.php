@@ -1,13 +1,16 @@
 <?php
+session_start();
 require_once '../models/Assignment.php';
 $assignment = new Assignment();
+$user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // DELETE
     if (isset($_POST['delete_assignment_id'])) {
         $id = intval($_POST['delete_assignment_id']);
         $result = $assignment->delete($id);
-        header("Location: ../admin/manage_assignments.php?" . ($result ? "success=1" : "error=1"));
+        $status = $result ? 'success' : 'error';
+        header("Location: ../admin/manage_assignments.php?action=deleted&status={$status}");
         exit;
     }
 
@@ -25,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             move_uploaded_file($_FILES['attachment']['tmp_name'], $uploadDir . $filename);
         }
         $result = $assignment->update($id, $_POST, $filename);
-        header("Location: ../admin/manage_assignments.php?" . ($result ? "success=1" : "error=1"));
+        $status = $result ? 'success' : 'error';
+        header("Location: ../admin/manage_assignments.php?action=updated&status={$status}");
         exit;
     }
 
@@ -40,7 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $filename = time() . '_' . $originalName;
         move_uploaded_file($_FILES['attachment']['tmp_name'], $uploadDir . $filename);
     }
-    $result = $assignment->create($_POST, $filename);
-    header("Location: ../admin/manage_assignments.php?" . ($result ? "success=1" : "error=1"));
+    $result = $assignment->create($_POST, $filename, $user_id);
+    $status = $result ? 'success' : 'error';
+    header("Location: ../admin/manage_assignments.php?action=added&status={$status}");
     exit;
 }

@@ -3,190 +3,166 @@
 <head>
   <meta charset="UTF-8">
   <title>Register | Student Portal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Notyf (Modern Premium Alerts) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Font -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      font-family: 'Inter', sans-serif;
-    }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
-
-    .form-control {
-      background-color: #1f1f1f;
-      border: none;
-      color: #fff;
-      box-shadow: none;
-    }
-
-    .form-control:focus {
-      background-color: #232323;
-      color: #fff;
-      border: 1.5px solid #a259ff;
-      box-shadow: 0 0 0 2px rgba(162,89,255,0.15);
-    }
-
-    .form-control::placeholder {
-      color: #b9b9b9;
-      opacity: 1;
-    }
-
-    .form-control:focus::placeholder {
-      color: #888;
-      opacity: 1;
-    }
-
-    .btn-purple {
-      background: linear-gradient(135deg, #a259ff, #8438ff);
-      border: none;
-      transition: 0.3s ease-in-out;
-    }
-
-    .btn-purple:hover {
-      background: linear-gradient(135deg, #8438ff, #a259ff);
-      box-shadow: 0 8px 20px rgba(130, 60, 255, 0.3);
-    }
-
-    .left-panel {
-      background-color: #0e0e0e;
-      color: white;
-    }
-
-    .right-panel {
-      background-color: #a259ff;
-      color: white;
-      text-align: center;
-    }
-
-    .right-panel img {
-      max-width: 90%;
-      height: auto;
-      margin-top: 30px;
-    }
-
-    @media (min-width: 768px) {
-      .left-panel,
-      .right-panel {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 60px;
-      }
-    }
-
-    @media (max-width: 767.98px) {
-      .left-panel,
-      .right-panel {
-        padding: 30px 20px;
-      }
-
-      .right-panel img {
-        max-width: 70%;
-      }
-    }
+    body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
-<body>
 
-<div class="container-fluid">
-  <div class="row flex-md-row flex-column-reverse">
+<body class="min-h-screen bg-slate-50 text-slate-900">
+  <!-- soft background -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-sky-200/60 blur-3xl"></div>
+    <div class="absolute top-40 -left-24 h-72 w-72 rounded-full bg-indigo-200/60 blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/3 h-72 w-72 rounded-full bg-emerald-100/70 blur-3xl"></div>
+  </div>
 
-    <!-- Left Panel -->
-    <div class="col-md-6 left-panel d-flex flex-column justify-content-center">
-      <div class="px-4">
-        <h2 class="mb-3">Create an Account</h2>
-        <p class="mb-4">Register below to get started with your student portal.</p>
+  <main class="min-h-screen flex items-center justify-center px-4 py-10">
+    <section class="w-full max-w-5xl grid lg:grid-cols-2 overflow-hidden rounded-3xl bg-white shadow-xl border border-slate-200">
 
-        <form action="../controllers/register_controller.php" method="post">
-          <div class="mb-3">
-            <input type="text" name="full_name" class="form-control" placeholder="Full Name" required>
+      <!-- Left Panel (Form) -->
+      <div class="p-8 lg:p-10">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900">Create an Account</h2>
+          <p class="mt-1 text-slate-600">Register below to get started with your student portal.</p>
+        </div>
+
+        <form action="../controllers/register_controller.php" method="post" class="mt-8 space-y-4">
+
+          <div>
+            <label class="text-sm font-semibold text-slate-700">Full Name</label>
+            <input
+              type="text"
+              name="full_name"
+              placeholder="Enter your full name"
+              required
+              class="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400
+                     focus:outline-none focus:ring-4 focus:ring-sky-200 focus:border-sky-400"
+            />
           </div>
 
-          <div class="mb-3">
-            <input type="email" name="email" class="form-control" placeholder="Email" required>
+          <div>
+            <label class="text-sm font-semibold text-slate-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+              class="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400
+                     focus:outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400"
+            />
           </div>
 
-          <div class="mb-3">
-            <input type="password" name="password" class="form-control" placeholder="Password" required>
+          <div>
+            <label class="text-sm font-semibold text-slate-700">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Create a password"
+              required
+              class="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400
+                     focus:outline-none focus:ring-4 focus:ring-emerald-200 focus:border-emerald-400"
+            />
           </div>
 
-          <div class="mb-3">
-            <select name="role" class="form-control" required>
-              <option value="">Register As</option>
+          <div>
+            <label class="text-sm font-semibold text-slate-700">Register As</label>
+            <select
+              name="role"
+              required
+              class="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900
+                     focus:outline-none focus:ring-4 focus:ring-sky-200 focus:border-sky-400"
+            >
+              <option value="">Select role</option>
               <option value="student">Student</option>
               <option value="admin">Admin</option>
             </select>
           </div>
 
-          <button type="submit" class="btn btn-purple w-100 text-white">Register</button>
+          <button
+            type="submit"
+            class="w-full rounded-xl bg-sky-600 px-4 py-3 font-bold text-white
+                   hover:bg-sky-700 transition shadow-md"
+          >
+            Register
+          </button>
 
-          <p class="mt-3 text-white text-center">
+          <p class="pt-2 text-sm text-slate-600">
             Already have an account?
-            <a href="login.php" class="text-info text-decoration-none">Login here</a>
+            <a href="login.php" class="font-semibold text-sky-700 hover:text-sky-800 underline underline-offset-4">
+              Login here
+            </a>
           </p>
         </form>
       </div>
-    </div>
 
-    <!-- Right Panel -->
-    <div class="col-md-6 right-panel d-flex flex-column justify-content-center align-items-center">
-      <div class="px-4">
-        <h1 class="fw-bold">Welcome to Student Portal</h1>
-        <p class="lead">Track your grades, submit assignments, and stay updated — all in one place.</p>
-        <img src="../assets/images/registration.svg" alt="Register Illustration">
+      <!-- Right Panel (Info + image) -->
+      <div class="relative p-8 lg:p-10 bg-gradient-to-br from-sky-50 to-indigo-50 flex flex-col justify-center items-center text-center">
+        <div class="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-sm font-semibold text-sky-700 border border-sky-100">
+          🎓 Student Portal System
+        </div>
+
+        <h1 class="mt-5 text-3xl lg:text-4xl font-extrabold text-slate-900">
+          Welcome to Student Portal
+        </h1>
+
+        <p class="mt-2 text-slate-600 max-w-md">
+          Track your grades, submit assignments, and stay updated — all in one place.
+        </p>
+
+        <div class="mt-8 w-full">
+          <!-- Keep your local image -->
+          <img
+            src="../assets/images/resgisterimage.jpg"
+            alt="Register Illustration"
+            class="w-full h-72 object-contain"
+          />
+        </div>
       </div>
-    </div>
-  </div>
-</div>
 
+    </section>
+  </main>
 
+  <script src="../assets/js/main.js"></script>
 
+  <!-- Notyf Alerts Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let alertShown = false;
 
-<script src="../assets/js/main.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let alertShown = false;
-    if (urlParams.has('error')) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: urlParams.get('error'),
-        confirmButtonColor: '#a259ff'
+      const notyf = new Notyf({
+        duration: 3500,
+        position: { x: 'right', y: 'top' },
+        dismissible: true
       });
-      alertShown = true;
-    }
-    if (urlParams.has('success')) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: urlParams.get('success'),
-        confirmButtonColor: '#a259ff'
-      });
-      alertShown = true;
-    }
-    // Remove query params after showing alert so it doesn't repeat on refresh
-    if (alertShown) {
-      if (window.history.replaceState) {
+
+      if (urlParams.has('error')) {
+        notyf.error(urlParams.get('error'));
+        alertShown = true;
+      }
+
+      if (urlParams.has('success')) {
+        notyf.success(urlParams.get('success'));
+        alertShown = true;
+      }
+
+      if (alertShown && window.history.replaceState) {
         const cleanUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
         window.history.replaceState({}, document.title, cleanUrl);
       }
-    }
-  });
-</script>
-
+    });
+  </script>
 </body>
 </html>

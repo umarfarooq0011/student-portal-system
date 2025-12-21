@@ -22,7 +22,7 @@ class Assignment
         return $result->fetch_assoc();
     }
 
-    public function create($data, $filename)
+    public function create($data, $filename, $created_by = null)
     {
         global $conn;
         $title = $data['title'];
@@ -31,8 +31,8 @@ class Assignment
         $instructions = $data['instructions'];
         $allow_late = isset($data['allow_late']) ? 1 : 0;
 
-        $stmt = $conn->prepare("INSERT INTO assignments (title, subject, due_date, instructions, attachment, allow_late) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssi", $title, $subject, $due_date, $instructions, $filename, $allow_late);
+        $stmt = $conn->prepare("INSERT INTO assignments (title, subject, due_date, instructions, attachment, allow_late, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssii", $title, $subject, $due_date, $instructions, $filename, $allow_late, $created_by);
         return $stmt->execute();
     }
 

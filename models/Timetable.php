@@ -8,10 +8,10 @@ class Timetable {
         return mysqli_query($conn, $sql);
     }
 
-    public function create($data) {
+    public function create($data, $created_by = null) {
         global $conn;
-        $stmt = $conn->prepare("INSERT INTO timetables (day_of_week, subject, start_time, end_time, room, teacher) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $data['day_of_week'], $data['subject'], $data['start_time'], $data['end_time'], $data['room'], $data['teacher']);
+        $stmt = $conn->prepare("INSERT INTO timetables (day_of_week, subject, start_time, end_time, room, teacher, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssi", $data['day_of_week'], $data['subject'], $data['start_time'], $data['end_time'], $data['room'], $data['teacher'], $created_by);
         return $stmt->execute();
     }
 

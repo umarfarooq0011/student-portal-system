@@ -14,11 +14,11 @@ class Announcement
         return $announcements;
     }
 
-    public function create($data)
+    public function create($data, $created_by = null)
     {
         global $conn;
-        $stmt = $conn->prepare("INSERT INTO announcements (title, category, content, status, created_at) VALUES (?, ?, ?, ?, NOW())");
-        $stmt->bind_param("ssss", $data['title'], $data['category'], $data['content'], $data['status']);
+        $stmt = $conn->prepare("INSERT INTO announcements (title, category, content, status, created_at, created_by) VALUES (?, ?, ?, ?, NOW(), ?)");
+        $stmt->bind_param("ssssi", $data['title'], $data['category'], $data['content'], $data['status'], $created_by);
         return $stmt->execute();
     }
 

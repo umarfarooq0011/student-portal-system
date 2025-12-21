@@ -1,46 +1,125 @@
-<div class="sidebar" id="sidebaradmin">
-  <div class="d-flex align-items-center px-4 mb-4" style="height:64px;">
-    <div class="logo-wrapper flex-grow-1" style="max-width: 120px; min-width: 80px; display: flex; align-items: center; justify-content: flex-start;">
-      <img src="../assets/images/logo-student.png" alt="Admin Portal Logo" style="width: 100%; height: auto; object-fit: contain; display: block;">
+<!-- Premium Sidebar -->
+<aside class="sidebar bg-white/80 backdrop-blur-xl border-r border-slate-200/60 shadow-xl" id="sidebarAdmin">
+    <!-- Logo Section -->
+    <div class="h-20 flex items-center justify-between px-6 border-b border-slate-100">
+        <a href="../admin/index.php" class="flex items-center gap-3 sidebar-logo-link">
+            <div class="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-mortarboard-fill text-white text-lg"></i>
+            </div>
+            <div class="sidebar-text">
+                <h1 class="text-lg font-bold text-slate-800">Admin</h1>
+                <p class="text-xs text-slate-500 -mt-0.5">Student Portal</p>
+            </div>
+        </a>
+        <!-- Close button for mobile -->
+        <button class="lg:hidden p-2 rounded-xl hover:bg-slate-100 text-slate-500" id="sidebarClose">
+            <i class="bi bi-x-lg text-xl"></i>
+        </button>
     </div>
-    <button class="btn d-lg-none ms-auto p-0" id="sidebaradminToggleClose" aria-label="Close sidebar" style="font-size:1.5rem; color:#fff;">
-      <i class="bi bi-x"></i>
-    </button>
-  </div>
-  <nav class="nav flex-column">
-    <a href="../admin/index.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>">
-      <i class="bi bi-grid"></i> Dashboard
-    </a>
-    <a href="../admin/manage_announcements.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_announcements.php') ? 'active' : ''; ?>">
-      <i class="bi bi-megaphone"></i> Manage Announcements
-    </a>
-    <a href="../admin/manage_assignments.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_assignments.php') ? 'active' : ''; ?>">
-      <i class="bi bi-file-earmark-text"></i> Manage Assignments
-    </a>
-    <!-- <a href="../admin/students.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'students.php') ? 'active' : ''; ?>">
-      <i class="bi bi-people"></i> Manage Students
-    </a> -->
-    <a href="../admin/manage_timetable.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_timetable.php') ? 'active' : ''; ?>">
-      <i class="bi bi-calendar3"></i> Manage Timetables
-    </a>
-    <!-- <a href="../admin/manage_grades.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_grades.php') ? 'active' : ''; ?>">
-      <i class="bi bi-mortarboard"></i> Manage Grades
-    </a> -->
-    <a href="../admin/profile.php" class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>">
-      <i class="bi bi-person-circle"></i> Profile
-    </a>
-  </nav>
-</div>
+
+    <!-- Navigation -->
+    <nav class="p-4 space-y-1 sidebar-nav">
+        <p class="px-3 mb-3 text-xs font-semibold text-slate-400 uppercase tracking-wider sidebar-text">Main Menu</p>
+
+        <a href="../admin/index.php" data-tooltip="Dashboard" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-grid-1x2-fill text-sky-600"></i>
+            </div>
+            <span class="sidebar-text">Dashboard</span>
+        </a>
+
+        <a href="../admin/manage_announcements.php" data-tooltip="Announcements" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_announcements.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-megaphone-fill text-amber-600"></i>
+            </div>
+            <span class="sidebar-text">Announcements</span>
+        </a>
+
+        <a href="../admin/manage_assignments.php" data-tooltip="Assignments" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_assignments.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-file-earmark-text-fill text-emerald-600"></i>
+            </div>
+            <span class="sidebar-text">Assignments</span>
+        </a>
+
+        <a href="../admin/manage_timetable.php" data-tooltip="Timetables" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'manage_timetable.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-calendar3 text-purple-600"></i>
+            </div>
+            <span class="sidebar-text">Timetables</span>
+        </a>
+
+        <p class="px-3 mt-6 mb-3 text-xs font-semibold text-slate-400 uppercase tracking-wider sidebar-text">Account</p>
+
+        <a href="../admin/profile.php" data-tooltip="Profile" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-person-circle text-slate-600"></i>
+            </div>
+            <span class="sidebar-text">Profile</span>
+        </a>
+
+        <a href="../auth/logout.php" data-tooltip="Logout" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-red-50 hover:text-red-600 mt-2">
+            <div class="w-9 h-9 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-box-arrow-right text-red-500"></i>
+            </div>
+            <span class="sidebar-text">Logout</span>
+        </a>
+    </nav>
+
+</aside>
+
+<!-- Sidebar Collapse Toggle Button (Outside sidebar for better positioning) -->
+<button class="sidebar-toggle hidden lg:flex items-center justify-center w-8 h-8 rounded-full bg-white border border-slate-200 shadow-lg hover:shadow-xl hover:bg-slate-50 transition-all" id="sidebarCollapseBtn" title="Toggle Sidebar">
+    <i class="bi bi-chevron-left text-slate-600 text-sm transition-transform duration-300" id="collapseIcon"></i>
+</button>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var sidebar = document.getElementById('sidebaradmin');
-    var closeBtn = document.getElementById('sidebaradminToggleClose');
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebarAdmin');
+    const closeBtn = document.getElementById('sidebarClose');
+    const overlay = document.getElementById('sidebarOverlay');
+    const collapseBtn = document.getElementById('sidebarCollapseBtn');
+    const collapseIcon = document.getElementById('collapseIcon');
+    const mainWrapper = document.querySelector('.main-wrapper');
+
+    // Mobile close button
     if (closeBtn && sidebar) {
-      closeBtn.addEventListener('click', function() {
-        sidebar.classList.remove('active');
-        document.getElementById('sidebaradminOverlay').style.display = 'none';
-        document.body.style.overflow = '';
-      });
+        closeBtn.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
     }
-  });
+
+    // Desktop collapse toggle
+    if (collapseBtn && sidebar) {
+        // Check localStorage for saved state
+        const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        if (isCollapsed) {
+            sidebar.classList.add('collapsed');
+            if (mainWrapper) mainWrapper.classList.add('sidebar-collapsed');
+            if (collapseIcon) collapseIcon.style.transform = 'rotate(180deg)';
+            collapseBtn.classList.add('collapsed-pos');
+        }
+        // Remove init class after proper classes are applied
+        document.documentElement.classList.remove('sidebar-collapsed-init');
+
+        collapseBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            if (mainWrapper) mainWrapper.classList.toggle('sidebar-collapsed');
+            collapseBtn.classList.toggle('collapsed-pos');
+
+            // Rotate icon
+            if (collapseIcon) {
+                if (sidebar.classList.contains('collapsed')) {
+                    collapseIcon.style.transform = 'rotate(180deg)';
+                    localStorage.setItem('sidebarCollapsed', 'true');
+                } else {
+                    collapseIcon.style.transform = 'rotate(0deg)';
+                    localStorage.setItem('sidebarCollapsed', 'false');
+                }
+            }
+        });
+    }
+});
 </script>
