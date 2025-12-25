@@ -49,6 +49,13 @@
             <span class="sidebar-text">Timetable</span>
         </a>
 
+        <a href="../dashboard/performance.php" data-tooltip="My Performance" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'performance.php') ? 'active bg-violet-50 text-violet-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-graph-up text-indigo-600"></i>
+            </div>
+            <span class="sidebar-text">My Performance</span>
+        </a>
+
         <p class="px-3 mt-6 mb-3 text-xs font-semibold text-slate-400 uppercase tracking-wider sidebar-text">Account</p>
 
         <a href="../dashboard/profile.php" data-tooltip="Profile" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active bg-violet-50 text-violet-700 font-semibold' : ''; ?>">

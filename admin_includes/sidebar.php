@@ -49,6 +49,29 @@
             <span class="sidebar-text">Timetables</span>
         </a>
 
+        <p class="px-3 mt-6 mb-3 text-xs font-semibold text-slate-400 uppercase tracking-wider sidebar-text">Analytics</p>
+
+        <a href="../admin/analytics.php" data-tooltip="Analytics" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'analytics.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-graph-up text-indigo-600"></i>
+            </div>
+            <span class="sidebar-text">Analytics</span>
+        </a>
+
+        <a href="../admin/export_reports.php" data-tooltip="Export Reports" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'export_reports.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-teal-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-file-earmark-arrow-down text-teal-600"></i>
+            </div>
+            <span class="sidebar-text">Export Reports</span>
+        </a>
+
+        <a href="../admin/plagiarism.php" data-tooltip="Plagiarism Check" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'plagiarism.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">
+            <div class="w-9 h-9 rounded-lg bg-rose-100 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-shield-exclamation text-rose-600"></i>
+            </div>
+            <span class="sidebar-text">Plagiarism Check</span>
+        </a>
+
         <p class="px-3 mt-6 mb-3 text-xs font-semibold text-slate-400 uppercase tracking-wider sidebar-text">Account</p>
 
         <a href="../admin/profile.php" data-tooltip="Profile" class="nav-link-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100/80 <?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active bg-sky-50 text-sky-700 font-semibold' : ''; ?>">

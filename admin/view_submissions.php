@@ -14,14 +14,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submission_id'])) {
     exit;
 }
 
-require_once '../admin_includes/header.php';
-require_once '../admin_includes/sidebar.php';
-require_once '../admin_includes/navbar.php';
 require_once '../models/Submission.php';
 require_once '../models/Assignment.php';
 
 $assignment_id = isset($_GET['assignment_id']) ? intval($_GET['assignment_id']) : 0;
+
+// Validate assignment exists
+if ($assignment_id <= 0) {
+    header("Location: manage_assignments.php?error=Invalid assignment ID");
+    exit;
+}
+
 $assignment = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM assignments WHERE id=$assignment_id"));
+
+// Redirect if assignment not found
+if (!$assignment) {
+    header("Location: manage_assignments.php?error=Assignment not found");
+    exit;
+}
+
+require_once '../admin_includes/header.php';
+require_once '../admin_includes/sidebar.php';
+require_once '../admin_includes/navbar.php';
 
 // Fetch submissions with student full name
 $stmt = $conn->prepare("SELECT s.*, u.full_name as student_name FROM submissions s JOIN users u ON s.student_id = u.id WHERE s.assignment_id=?");
